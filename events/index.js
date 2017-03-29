@@ -37,12 +37,18 @@ module.exports = function(io) {
             pub.publish('chat', reply);
         });
 
+        socket.on('disconnect', function() {
+            socket.disconnect(true);
+            console.log('User has disconnected');
+        });
         /*
          Use Redis' 'sub' (subscriber) client to listen to any message from Redis to server.
          When a message arrives, send it back to browser using socket.io
          */
         sub.on('message', function(channel, message) {
             socket.emit(channel, message);
+            console.log(socket.id);
+            io;
         });
     })
 }
